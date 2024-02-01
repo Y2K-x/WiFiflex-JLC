@@ -5,9 +5,13 @@ Wii WiFi relocation flex pcb
 ![image](https://github.com/supertazon/WiFiflex/assets/1402795/46e0e68d-764e-44ed-8664-1ff353428367)
 ![IMG_3469](https://github.com/supertazon/WiFiflex/assets/1402795/b5aa3793-8d84-407c-8988-c64485fead5c)
 
+***Note: This version is specifically tailored for production through JLCPCB, as the original design did not fit within their capabilities. If you are planning on having these manufactured through a service such as PCBWay or GoldPhoenix's pool, please consider using the original version instead!***
+
 A flex pcb to easily relocate the Wii WiFi chip for Wii portables (useless for stock Wii) by using the WiFi chip connector. The WiFi chip is notorious for being difficult to relocate by handwiring it due to wire length sensitivity. License is permissive, you are free to make, sell and distribute the flex pcb.
 
 The flex pcb is compatible with a OMGWTF trim, it also does not overlap with the NAND relocation flex.
+
+This version requires that you relocate RA20 from the Wii motherboard directly onto the flex, instead of the flex soldering directly to RA20. This was done since JLCPCB's castellation tolerances are not tight enough to support soldering to the 0402 resistor pack.
 
 Repo contains the KiCad source files (needs KiCad 8.0RC2 minimum to work) and gerbers.
 
@@ -17,18 +21,21 @@ Molex connector 52991-0208: [DigiKey](https://www.digikey.com/en/products/detail
 
 ## How to order
 
-[YveltalGriffin](https://github.com/mackieks) suggested to order the flex pcb from PCBWay rather than other providers as this flex uses small castellation vias and PCBWay properly handles them. You can try ordering it from JLCPCB or any other service but at your own risk.
+As suggested by [YveltalGriffin](https://github.com/mackieks), the original design requires fabrication through a service that has tight tollerances with castellations, such as PCBWay. This modification allows fabrication through cheaper services such as JLCPCB.
 
-  - FPC thickness: 0.1 mm
-  - min hole size: >0.15/0.35mm
+This modification is *untested* and *highly experimental.* Things may not line up or it might not work at all. Try this at your own risk (and report your findings on the [BitBuilt forums](https://bitbuilt.net/forums/index.php?threads/wififlex-wii-wifi-relocation-flex-pcb) please!)
+
+Through JLC, please make sure to select these settings:
+  - FPC thickness: 0.11 mm
   - Surface finish:  Immersion gold (ENIG) (1U")
-  - min track spacing: ≥ 0.06mm
-  - Finished copper:  0.5 oz Cu (18μm)
+  - Finished copper:  1/3 oz Cu (18μm) (Ideally you'd want 0.5oz copper here but JLC does not seem to support this yet)
 
 
 ## How to install
 
   1. Populate the flex pcb, take note of the silkscreen to correctly position the connector. I highly recommend using solder paste and a hot plate or hot air, it's definitely easier than hand soldering it. Check continuity between the connector pins and the vias before moving on.
+    - Also be sure to remove RA20 off the Wii motherboard and install it onto the designated spot on the flex. No need to worry about polarity here.
+	- After removing RA20, remove any residual solder left on the RA20 footprint pads on the Wii motherboard with solder wick. This is to ensure the flex sits properly on the board and isn't damages by leftover solder.
   2. Scratch the two pairs of vias 3.3V and GND while making sure to scratch the space between both.
   3. Position the flex to locate where you will scratch the Wii's GND plane for the upper right via on the flex.
   4. Scratch the Wii's GND plane at the correct position.
@@ -38,8 +45,8 @@ Molex connector 52991-0208: [DigiKey](https://www.digikey.com/en/products/detail
   6. Add flux and pre-tin the vias and GND spot. I noticed the 3.3V vias needed more heat to be properly tinned.
   7. Position the flex and secure it with a piece of kapton tape between the GND vias and the connector.
   8. Solder the GND vias with the Wii GND vias and the 3.3V vias with the Wii's 3.3V vias. Don't forget you might need to apply more heat on the 3.3V vias.
-  9. Add flux and solder to the resistors.
-  10. Check continuity between the resistors and the according connector pins.
+  9. Add flux and solder to the pads on the flex that align up directly with the left over pads on the RA20 footprint.
+  10. Check continuity between the these points and the vias they connect to on the Wii motherboard (follow the traces).
   11. If everything is nominal then proceed with soldering the big GND via, otherwise reflow as needed.
 
 Now that you are done you can try putting a WiFi chip on there and see if you get signal. Be careful to not short anything on the board, you might need to add kapton tape either on the chip or on the Wii motherboard.
@@ -48,8 +55,9 @@ Now that you are done you can try putting a WiFi chip on there and see if you ge
 
 ## Contributors
 
-- **supertazon**: Initial design and routing
+- **[supertazon](https://github.com/supertazon)**: Initial design and routing
 - **[YveltalGriffin](https://github.com/mackieks)**: Via stitching, large GND via addition, silkscreen and general tips on routing
+- **Y2K**: Modified design for JLCPCB specifications, with permission from supertazon.
 
 ## Acknowledgements
 
